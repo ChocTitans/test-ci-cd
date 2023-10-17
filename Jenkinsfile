@@ -22,13 +22,11 @@ pipeline {
       }
     }
     stages{
-
         stage('Git'){
             steps{
               git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
             }
         }
-
         stage('maven build') {
             steps {
                 sh 'mvn clean install'
