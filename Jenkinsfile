@@ -13,7 +13,7 @@ pipeline {
               - cat
               tty: true
             - name : maven
-              image: maven:3.6.3-jdk-11
+              image: maven:3.6.3-jdk-17
               command:
               - cat
               tty: true
