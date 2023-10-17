@@ -12,6 +12,11 @@ pipeline {
               command:
               - cat
               tty: true
+            - name : maven
+              image: maven:3.6.3-jdk-11
+              command:
+              - cat
+              tty: true
           '''
       }
     }
@@ -23,7 +28,9 @@ pipeline {
         }
         stage('maven build') {
             steps {
+              container('maven') {
                 sh 'mvn clean install'
+              }
             }
         }
         stage('Docker build and Push'){
