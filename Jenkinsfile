@@ -13,8 +13,12 @@ pipeline {
               - cat
               tty: true
               volumeMounts:
-              - name: docker-socket
+              - name: dockersock
                 mountPath: /var/run/docker.sock
+            volumes:
+            - name: dockersock
+              hostPath:
+                path: /var/run/docker.sock
             - name : maven
               image: maven:3.6.3-openjdk-17-slim
               command:
