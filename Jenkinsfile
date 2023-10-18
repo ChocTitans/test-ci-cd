@@ -1,8 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'docker-in-docker-maven'
-            yaml """
+            yaml '''
 apiVersion: v1
 kind: Pod
 spec:
@@ -31,7 +30,7 @@ volumes:
     hostPath:
       path: /tmp
       type: Directory
-"""
+'''
         }
     }
     stages {
