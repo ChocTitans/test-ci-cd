@@ -13,12 +13,7 @@ pipeline {
               - cat
               tty: true
             - name : maven
-              image: maven:alpine
-              command:
-              - cat
-              tty: true
-            - name : jdk
-              image: openjdk:17-alpine
+              image: maven:3.6.3-openjdk-17-slim
               command:
               - cat
               tty: true
