@@ -8,8 +8,8 @@ kind: Pod
 spec:
 containers:
 - name: docker-client
-  image: docker:19.03.1
-  command: ['sleep', '1d']
+  image: docker:latest
+  command: ['sleep', '99d']
   env:
     - name: DOCKER_HOST
       value: tcp://localhost:2375
