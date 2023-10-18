@@ -1,53 +1,54 @@
 pipeline {
-    agent
-    {
-      kubernetes {
-        yaml '''
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-            - name: docker
-              image: docker:latest
-              command:
-              - cat
-              tty: true
-              volumeMounts:
-              - name: dockersock
-                mountPath: /var/run/docker.sock
-            - name : maven
-              image: maven:3.6.3-openjdk-17-slim
-              command:
-              - cat
-              tty: true
-            volumes:
-            - name: dockersock
-              hostPath:
-                path: /var/run/docker.sock            
-          '''
-      }
+    agent {
+        kubernetes {
+            label 'docker-in-docker-maven'
+            yaml """
+apiVersion: v1
+kind: Pod
+spec:
+containers:
+- name: docker-client
+  image: docker:19.03.1
+  command: ['sleep', '1d']
+  env:
+    - name: DOCKER_HOST
+      value: tcp://localhost:2375
+  volumeMounts:
+    - name: cache
+      mountPath: /tmp/repository
+- name: docker-daemon
+  image: docker:19.03.1-dind
+  env:
+    - name: DOCKER_TLS_CERTDIR
+      value: ""
+  securityContext:
+    privileged: true
+  volumeMounts:
+    - name: cache
+      mountPath: /var/lib/docker
+volumes:
+  - name: cache
+    hostPath:
+      path: /tmp
+      type: Directory
+"""
+        }
     }
-    stages{
-        stage('Git'){
-            steps{
+    stages {
+        stage('Checkout') {
+            steps {
               git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
             }
         }
-        stage('maven build') {
+        stage('Build') {
             steps {
-              container('maven') {
-                sh 'mvn clean install'
-              }
+                container('docker-client') {
+                    sh "docker run -v ${WORKSPACE}:/usr/src/mymaven -v /tmp/repository:/root/.m2/repository -w /usr/src/mymaven maven:3.6.3-jdk-17-slim mvn clean install"
+                }
             }
-        }
-        stage('Docker build and Push'){
-            steps{
-              container('docker'){
-                sh 'docker build -t eltitans/test-ci-cd .'
-                sh 'docker push eltitans/test-ci-cd:latest'
-              }
-            }
-
         }
     }
 }
+
+
+
