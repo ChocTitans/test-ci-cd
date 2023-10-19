@@ -12,7 +12,7 @@ spec:
         value: ""
 ''') {
     node(POD_LABEL) {
-        git 'https://github.com/ChocTitans/test-ci-cd.git'
+        git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
         container('docker') {
             sh 'docker build -t nginx-example .'
         }
