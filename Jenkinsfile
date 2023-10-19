@@ -37,7 +37,14 @@ pipeline {
     stage('Build-Jar-file') {
       steps {
         container('maven') {
-          sh 'mvn package'
+          sh 'mvn clean install'
+        }
+      }
+    }
+    stage('Build-Docker-image') {
+      steps {
+        container('docker') {
+          sh 'docker build -t eltitans/test-ci-cd .'
         }
       }
     }
