@@ -41,7 +41,7 @@ pipeline {
         container('docker') {
           sh 'docker build -t eltitans/test-ci-cd .'
           script {
-            withDockerRegistry(credentialsId: 'DockerHamza', url "") {
+            withDockerRegistry(credentialsId: 'DockerHamza', url: '') {
               sh 'docker push eltitans/test-ci-cd:latest'
             }
           }
