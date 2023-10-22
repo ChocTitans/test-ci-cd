@@ -1,6 +1,10 @@
 pipeline {
-  agent {
-  }
+    agent{
+        kubernetes{
+            
+        }
+    }
+
   stages {
     stage('Checkout SCMS')
     {
