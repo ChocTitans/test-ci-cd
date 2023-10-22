@@ -34,7 +34,7 @@ pipeline {
         stage('maven build') {
             steps {
               container('maven') {
-                sh 'mvn clean install'
+                sh 'mvn -version'
               }
             }
         }
