@@ -19,14 +19,6 @@ podTemplate(containers: [
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
         }
 
-        stage('Maven install')
-        {
-            container('maven')
-            {
-                sh 'mvn clean install'
-            }
-        }
-
         stage('Docker build & push')
         {
             container('docker')
@@ -34,10 +26,10 @@ podTemplate(containers: [
                 sh 'docker-compose build '
                 script
                 {
-                    /*withDockerRegistry(credentialsId: 'DockerHamza', url: '')
+                    withDockerRegistry(credentialsId: 'DockerHamza', url: '')
                     {
-                        sh 'docker push eltitans/test-ci-cd:latest'
-                    }*/
+                        sh 'docker-compose push'
+                    }
                 }
             }
         }
