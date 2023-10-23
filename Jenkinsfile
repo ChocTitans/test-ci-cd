@@ -5,6 +5,15 @@ podTemplate(containers: [
 
     node(POD_LABEL)
     {
+        stage('Install Docker Compose')
+        {
+            container('docker')
+            {
+                sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose'
+                sh 'chmod +x /usr/local/bin/docker-compose' 
+            }
+        }
+        
         stage ('Clone')
         {
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
@@ -22,7 +31,7 @@ podTemplate(containers: [
         {
             container('docker')
             {
-                sh 'docker build -t eltitans/test-ci-cd .'
+                sh 'docker-compose build '
                 script
                 {
                     /*withDockerRegistry(credentialsId: 'DockerHamza', url: '')
