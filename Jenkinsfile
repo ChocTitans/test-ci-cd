@@ -11,6 +11,7 @@ podTemplate(containers: [
             {
                 sh 'wget https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -O /usr/local/bin/docker-compose'
                 sh 'chmod +x /usr/local/bin/docker-compose'  
+                
             }
         }
         
@@ -23,12 +24,12 @@ podTemplate(containers: [
         {
             container('docker')
             {
-                sh 'docker-compose build '
+                sh '/usr/local/bin/docker-compose build'
                 script
                 {
                     withDockerRegistry(credentialsId: 'DockerHamza', url: '')
                     {
-                        sh 'docker-compose push'
+                        sh '/usr/local/bin/docker-compose push'
                     }
                 }
             }
