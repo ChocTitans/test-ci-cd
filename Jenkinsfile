@@ -7,9 +7,9 @@ podTemplate(containers: [
     {
         stage ('Installing Docker compose')
         {
+            sh 'dockerd-entrypoint.sh &'
             script
             {
-                sh 'dockerd-entrypoint.sh &'
                 sh 'until docker info; do sleep 1; done'
                 sh 'apk add docker-compose'
             }
