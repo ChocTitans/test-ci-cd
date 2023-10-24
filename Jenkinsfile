@@ -1,6 +1,5 @@
 podTemplate(containers: [
-    containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-17-slim', command: 'cat', ttyEnabled: 'true'),
-    containerTemplate(name: 'docker', image: 'docker:dind', command: 'sh -c "dockerd-entrypoint.sh & until docker info; do sleep 1; done && apk add docker-compose"', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')], alwaysPullImage: true)
+    containerTemplate(name: 'docker', image: 'docker:dind', command: 'sh -c "dockerd-entrypoint.sh & until docker info; do sleep 1; done && apk add docker-compose"', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')])
   ]) {
 
     node(POD_LABEL)
