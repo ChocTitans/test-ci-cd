@@ -1,19 +1,10 @@
 podTemplate(containers: [
     containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-17-slim', command: 'cat', ttyEnabled: 'true'),
-    containerTemplate(name: 'docker', image: 'docker:19.03.1-dind', command: '', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')])
+    containerTemplate(name: 'docker', image: 'docker:dind', command: '', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')]),
   ]) {
 
     node(POD_LABEL)
     {
-        stage('Install Docker Compose')
-        {
-            container('docker')
-            {
-                sh 'wget https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64 -O /usr/local/bin/docker-compose'
-                sh 'chmod +x /usr/local/bin/docker-compose'  
-                
-            }
-        }
         
         stage ('Clone')
         {
@@ -22,14 +13,20 @@ podTemplate(containers: [
 
         stage('Docker build & push')
         {
+
             container('docker')
             {
-                sh '/usr/local/bin/docker-compose build'
+                sh 'dockerd-entrypoint.sh &'
+
                 script
                 {
+                    sh 'until docker info; do sleep 1; done'
+                    sh 'apk add docker-compose'
+
                     withDockerRegistry(credentialsId: 'DockerHamza', url: '')
                     {
-                        sh '/usr/local/bin/docker-compose push'
+                        sh 'docker-compose build'
+                        sh 'docker-compose push'
                     }
                 }
             }
