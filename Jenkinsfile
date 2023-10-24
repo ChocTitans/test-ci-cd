@@ -5,7 +5,15 @@ podTemplate(containers: [
 
     node(POD_LABEL)
     {
-        
+        stage ('Installing Docker compose')
+        {
+            script
+            {
+                sh 'dockerd-entrypoint.sh &'
+                sh 'until docker info; do sleep 1; done'
+                sh 'apk add docker-compose'
+            }
+        }
         stage ('Clone')
         {
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
@@ -16,13 +24,8 @@ podTemplate(containers: [
 
             container('docker')
             {
-                sh 'dockerd-entrypoint.sh &'
-
                 script
                 {
-                    sh 'until docker info; do sleep 1; done'
-                    sh 'apk add docker-compose'
-
                     withDockerRegistry(credentialsId: 'DockerHamza', url: '')
                     {
                         sh 'docker-compose build'

@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   sut:
-    build: ./tests/
+    build: ./result/tests/
     image: eltitans/sut:latest
     depends_on:
       - vote
