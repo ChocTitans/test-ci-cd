@@ -1,5 +1,5 @@
 podTemplate(containers: [
-    containerTemplate(name: 'docker', image: 'docker:dind', command: 'sh -c "dockerd-entrypoint.sh & until docker info; do sleep 1; done && apk add docker-compose"', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')])
+    containerTemplate(name: 'docker', image: 'docker:dind', command: 'sh -c "dockerd-entrypoint.sh && apk add docker-compose"', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')])
   ]) {
 
     node(POD_LABEL)
