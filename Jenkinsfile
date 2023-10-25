@@ -13,7 +13,7 @@ podTemplate(containers: [
                 {
                     sh 'dockerd-entrypoint.sh &'
                     sh 'until docker info; do sleep 1; done'
-                    sh 'apk add docker-compose'
+                    //sh 'apk add docker-compose'
                     sh 'apk add kustomize'
                 }
             }
