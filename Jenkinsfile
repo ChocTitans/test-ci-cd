@@ -5,7 +5,7 @@ podTemplate(containers: [
 
     node(POD_LABEL)
     {
-        stage ('Installing Docker compose')
+        stage ('Installing Requirements')
         {
             container('docker')
             {
@@ -14,6 +14,7 @@ podTemplate(containers: [
                     sh 'dockerd-entrypoint.sh &'
                     sh 'until docker info; do sleep 1; done'
                     sh 'apk add docker-compose'
+                    sh 'apk add kustomize'
                 }
             }
         }
@@ -35,6 +36,14 @@ podTemplate(containers: [
                         sh 'docker-compose push'
                     }
                 }
+            }
+        }
+
+        stage('Deploy to K8s')
+        {
+            kubeconfig(credentialsId: 'Github-Hamza', serverUrl: '')
+            {
+                kubectl cluster-info
             }
         }
     }
