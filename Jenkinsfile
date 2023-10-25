@@ -41,10 +41,17 @@ podTemplate(containers: [
 
         stage('Deploy to K8s')
         {
-            kubeconfig(credentialsId: 'Github-Hamza', serverUrl: '')
+            container('docker')
+            {
+                script
+                {
+                    sh 'docker-compose version'
+                }
+            }
+           /* kubeconfig(credentialsId: 'Github-Hamza', serverUrl: '')
             {
                 kubectl cluster-info
-            }
+            }*/
         }
     }
 }
