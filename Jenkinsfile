@@ -23,7 +23,7 @@ podTemplate(containers: [
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
         }
 
-        stage('Docker build & push')
+       /* stage('Docker build & push')
         {
 
             container('docker')
@@ -37,7 +37,7 @@ podTemplate(containers: [
                     }
                 }
             }
-        }
+        }*/
 
         stage('Deploy to K8s')
         {
