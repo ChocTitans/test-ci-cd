@@ -40,9 +40,12 @@ podTemplate(containers: [
 
         stage('SonarQube Test Vulnerabilty')
         {
-            withSonarQubeEnv('sonarqube')
+            container('maven')
             {
-                sh 'mvn sonar:sonar'
+                withSonarQubeEnv('sonarqube')
+                {
+                    sh 'mvn sonar:sonar'
+                }       
             }
         }
         stage('Deploy to K8s')
