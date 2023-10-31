@@ -40,13 +40,30 @@ podTemplate(containers: [
 
         stage('SonarQube Test Vulnerabilty')
         {
-            container('maven')
+            dir('vote') 
             {
-                withSonarQubeEnv('sonarqube')
+                withSonarQubeEnv('My SonarQube Server') 
                 {
-                    sh 'mvn sonar:sonar'
-                }       
+                    sh "sonar-scanner"
+                }
             }
+            dir('result')
+            {
+                withSonarQubeEnv('My SonarQube Server')
+                {
+                    sh "sonar-scanner-cli" 
+                }
+            }
+            dir('worker')
+            {
+                withSonarQubeEnv('My SonarQube Server')
+                {
+                    sh "sonar-scanner begin"
+                    sh "dotnet build worker.csproj"
+                    sh "sonar-scanner end"
+                }
+            }
+            
         }
         stage('Deploy to K8s')
         {
