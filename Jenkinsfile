@@ -1,5 +1,5 @@
 podTemplate(containers: [
-    //containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-17-slim', command: 'cat', ttyEnabled: 'true'),
+    containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-17-slim', command: 'cat', ttyEnabled: 'true'),
     containerTemplate(name: 'docker', image: 'docker:dind', command: '', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')]),
   ]) {
 
@@ -40,13 +40,17 @@ podTemplate(containers: [
 
         stage('SonarQube Test Vulnerabilty')
         {
+            container('maven')
+            {
+
+
             dir('vote') 
             {
                 withSonarQubeEnv(installationName: 'sonarqube')
                 {
-                    sh "ls -la"
-                    sh "sonar-scanner"
+                    sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.3:sonar"
                 }
+            }
             }
             dir('result')
             {
