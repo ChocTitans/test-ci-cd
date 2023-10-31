@@ -72,6 +72,10 @@ podTemplate(containers: [
         {
             waitForQualityGate abortPipeline: true
         }
+		stage('Ansible to deploy in k8s')
+		{
+		}
+		
         stage('Deploy to K8s')
         {
            /* kubeconfig(credentialsId: 'Github-Hamza', serverUrl: '')
