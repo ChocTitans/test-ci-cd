@@ -74,6 +74,7 @@ podTemplate(containers: [
         }
 		stage('Ansible to deploy in k8s')
 		{
+			// probably will use this to deploy
 		}
 		
         stage('Deploy to K8s')
