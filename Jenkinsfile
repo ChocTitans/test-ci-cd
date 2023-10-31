@@ -44,7 +44,7 @@ podTemplate(containers: [
             {
 
 
-            dir('vote') 
+            dir('JDBC') 
             {
                 withSonarQubeEnv(installationName: 'sonarqube')
                 {
