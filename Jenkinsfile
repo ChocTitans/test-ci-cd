@@ -42,21 +42,22 @@ podTemplate(containers: [
         {
             dir('vote') 
             {
-                withSonarQubeEnv('sonarqube') 
+                withSonarQubeEnv(installationName: 'sonarqube')
                 {
+                    sh "ls -la"
                     sh "sonar-scanner"
                 }
             }
             dir('result')
             {
-                withSonarQubeEnv('sonarqube')
+                withSonarQubeEnv(installationName: 'sonarqube')
                 {
                     sh "sonar-scanner-cli" 
                 }
             }
             dir('worker')
             {
-                withSonarQubeEnv('sonarqube')
+                withSonarQubeEnv(installationName: 'sonarqube')
                 {
                     sh "sonar-scanner begin"
                     sh "dotnet build worker.csproj"
