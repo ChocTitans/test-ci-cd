@@ -40,17 +40,12 @@ podTemplate(containers: [
 
         stage('SonarQube Test Vulnerabilty')
         {
-            container('maven')
-            {
-
-
-            dir('JDBC') 
+            dir('vote') 
             {
                 withSonarQubeEnv(installationName: 'sonarqube')
                 {
-                    sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar"
+                    sh "sonar-scanner"
                 }
-            }
             }
             dir('result')
             {
