@@ -8,7 +8,6 @@ podTemplate(containers: [
         script {scannerHome = tool 'sonarqube' }
 
         environment {
-            EKS_CLUSTER_NAME = 'test-cluster-3'
             KUBE_NAMESPACE = 'devops-tools'
         }
         stage ('Installing Requirements')
@@ -38,14 +37,16 @@ podTemplate(containers: [
             {
                 dir('k8s')
                 {
-                withCredentials([kubeconfigFile(credentialsId: 'Kubeconfing', variable: 'KUBECONFIG')]) {
-                    def kubeconfig = readFile "${env.KUBECONFIG}"
-                    sh "echo '$kubeconfig' > kubeconfig.yaml"
-                    kubeconfig = 'kubeconfig.yaml'
-                    sh "kubectl --kubeconfig=${kubeconfig} apply -f k8s/worker/deployment.yaml --namespace=${env.KUBE_NAMESPACE}"
+                    withCredentials([kubeconfigFile(credentialsId: 'Kubeconfing', variable: 'KUBECONFIG')]) {
+                        def kubeconfig = readFile "${env.KUBECONFIG}"
+                        sh "echo '$kubeconfig' > kubeconfig.yaml"
+                        kubeconfig = 'kubeconfig.yaml'
+                        sh "kubectl --kubeconfig=${kubeconfig} apply -f k8s/worker/deployment.yaml --namespace=${env.KUBE_NAMESPACE}"
 
+                    }
                 }
             }
         }
     }
 }
+  
