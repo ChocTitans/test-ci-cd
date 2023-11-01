@@ -75,7 +75,7 @@ podTemplate(containers: [
         {
             kubeconfig(credentialsId: 'KubeConfing', serverUrl: '')
             {
-                dir('ks')
+                dir('k8s')
                 {
                     sh 'kustomize build . | kubectl apply -f -'
                 }
