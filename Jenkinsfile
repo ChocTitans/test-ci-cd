@@ -1,6 +1,5 @@
 podTemplate(containers: [
     containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-17-slim', command: 'cat', ttyEnabled: 'true'),
-    //containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:latest', command: '', ttyEnabled: 'true', privileged: 'true'),
     containerTemplate(name: 'docker', image: 'docker:dind', command: '', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')]),
   ]) {
 
@@ -8,14 +7,19 @@ podTemplate(containers: [
     {
         script {scannerHome = tool 'sonarqube' }
 
+        environment {
+            EKS_CLUSTER_NAME = 'test-cluster-3'
+            KUBE_NAMESPACE = 'devops-tools'
+        }
         stage ('Installing Requirements')
         {
             container('docker')
             {
                 script
                 {
-                    sh 'dockerd-entrypoint.sh &'
-                    sh 'until docker info; do sleep 1; done'
+                    //sh 'dockerd-entrypoint.sh &'
+                    //sh 'until docker info; do sleep 1; done'
+                
                     sh 'apk add kustomize'
                     sh 'wget -O kubectl https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl'
                     sh 'chmod +x kubectl'
@@ -28,63 +32,18 @@ podTemplate(containers: [
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
         }
 
-       /*stage('Docker build & push')
-        {
-
-            container('docker')
-            {
-                script
-                {
-                    withDockerRegistry(credentialsId: 'DockerHamza', url: '')
-                    {
-                        sh 'docker-compose build'
-                        sh 'docker-compose push'
-                    }
-                }
-            }
-        }*/
-
-        /*stage('SonarQube Test Vulnerabilty')
-        {
-            container('maven')
-            {
-                dir('vote') 
-                {
-                    withSonarQubeEnv('sonarqube')
-                    {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Vote"
-                    }
-                }
-                dir('result')
-                {
-                    withSonarQubeEnv('sonarqube')
-                    {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Result"
-                    }
-                }
-                dir('worker')
-                {
-                    withSonarQubeEnv('sonarqube')
-                    {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Worker"
-                    }
-                }
-            }
-        }
-        stage("SonarQube Quality gate")
-        {
-            waitForQualityGate abortPipeline: true
-        }*/
         stage('Deploy to K8s')
         {
             container('docker')
             {
                 dir('k8s')
                 {
-                    kubeconfig(credentialsId: 'Kubeconfing', serverUrl: 'https://kubernetes.default.svc.cluster.local')
-                    {
-                        sh 'kustomize build . | kubectl apply -f -'
-                    }
+                withCredentials([kubeconfigFile(credentialsId: 'Kubeconfing', variable: 'KUBECONFIG')]) {
+                    def kubeconfig = readFile "${env.KUBECONFIG}"
+                    sh "echo '$kubeconfig' > kubeconfig.yaml"
+                    kubeconfig = 'kubeconfig.yaml'
+                    sh "kubectl --kubeconfig=${kubeconfig} apply -f k8s/worker/deployment.yaml --namespace=${env.KUBE_NAMESPACE}"
+
                 }
             }
         }
