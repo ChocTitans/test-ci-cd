@@ -18,7 +18,9 @@ podTemplate(containers: [
                 {
                     //sh 'dockerd-entrypoint.sh &'
                     //sh 'until docker info; do sleep 1; done'
-                
+                    sh 'wget "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip"'
+                    sh 'unzip awscli-exe-linux-x86_64.zip'
+                    sh 'sudo ./aws/install'
                     sh 'apk add kustomize'
                     sh 'wget -O kubectl https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl'
                     sh 'chmod +x kubectl'
