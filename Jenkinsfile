@@ -81,7 +81,10 @@ podTemplate(containers: [
             {
                 dir('k8s')
                 {
-                    sh 'kustomize build . | kubectl apply -f -'
+                    kubeconfig(credentialsId: 'Kubeconfing', serverUrl: 'https://kubernetes.default.svc.cluster.local')
+                    {
+                        sh 'kustomize build . | kubectl apply -f -'
+                    }
                 }
             }
         }
