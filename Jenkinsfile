@@ -73,9 +73,12 @@ podTemplate(containers: [
         }
         stage('Deploy to K8s')
         {
-            dir('k8s')
+            kubeconfig(credentialsId: 'KubeConfig', serverUrl: '')
             {
-                sh 'kustomize build . | kubectl apply -f -'
+                dir('ks')
+                {
+                    sh 'kustomize build . | kubectl apply -f -'
+                }
             }
         }
     }
