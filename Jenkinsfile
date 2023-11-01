@@ -73,7 +73,7 @@ podTemplate(containers: [
         }
         stage('Deploy to K8s')
         {
-            kubeconfig(credentialsId: 'KubeConfig', serverUrl: '')
+            kubeconfig(credentialsId: 'KubeConfing', serverUrl: '')
             {
                 dir('ks')
                 {
