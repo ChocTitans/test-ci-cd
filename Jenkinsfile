@@ -37,12 +37,12 @@ podTemplate(containers: [
             {
                 dir('k8s')
                 {
-                    withCredentials([kubeconfigFile(credentialsId: 'Kubeconfing', variable: 'KUBECONFIG')]) {
-                        def kubeconfig = readFile "${env.KUBECONFIG}"
-                        sh "echo '$kubeconfig' > kubeconfig.yaml"
-                        kubeconfig = 'kubeconfig.yaml'
-                        sh "kubectl --kubeconfig=${kubeconfig} apply -f k8s/worker/deployment.yaml --namespace=${env.KUBE_NAMESPACE}"
-
+                    script {
+                        // Authenticate with EKS cluster
+                        withCredentials([kubeconfigFile(credentialsId: 'Kubeconfing', variable: 'KUBECONFIG')]) {
+                            // Deploy to EKS using kubectl
+                            sh "kubectl apply -f k8s/worker/deployment.yaml --namespace=${env.KUBE_NAMESPACE}"
+                        }
                     }
                 }
             }
