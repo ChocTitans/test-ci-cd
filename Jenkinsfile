@@ -38,10 +38,8 @@ podTemplate(containers: [
                 dir('k8s')
                 {
                     script {
-                        // Authenticate with EKS cluster
-                        withCredentials([kubeconfigFile(credentialsId: 'Kubeconfing', variable: 'KUBECONFIG')]) {
-                            // Deploy to EKS using kubectl
-                            sh "kubectl apply -f k8s/worker/deployment.yaml --namespace=${env.KUBE_NAMESPACE}"
+                        kubeconfig(credentialsId: 'Kubeconfing', serverUrl: '') {
+                            sh 'kubectl apply -f k8s/worker/deployment.yaml'
                         }
                     }
                 }
