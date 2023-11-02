@@ -43,7 +43,7 @@ podTemplate(containers: [
                 {
                     script {
                         kubeconfig(credentialsId: 'Kubeconfing', serverUrl: '') {
-                            sh 'kubectl apply -f k8s/worker/deployment.yaml'
+                            sh 'kubectl apply -f ./worker/deployment.yaml'
                         }
                     }
                 }
