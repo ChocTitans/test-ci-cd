@@ -18,6 +18,8 @@ podTemplate(containers: [
             {
                 script
                 {
+                    def awsCliInstallDir = "${AWS_CLI_INSTALL_DIR}"
+
                     //sh 'dockerd-entrypoint.sh &'
                     //sh 'until docker info; do sleep 1; done'
                     sh "mkdir -p ${AWS_CLI_INSTALL_DIR}"
