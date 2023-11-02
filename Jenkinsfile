@@ -9,7 +9,7 @@ podTemplate(containers: [
 
         environment {
             KUBE_NAMESPACE = 'devops-tools'
-            AWS_CLI_INSTALL_DIR = "${env.WORKSPACE}/aws-cli"
+            AWS_CLI_INSTALL_DIR = "${WORKSPACE}/aws-cli" // Use WORKSPACE instead of env.WORKSPACE
 
         }
         stage ('Installing Requirements')
