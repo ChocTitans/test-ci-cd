@@ -20,11 +20,8 @@ podTemplate(containers: [
 
                     //sh 'dockerd-entrypoint.sh &'
                     //sh 'until docker info; do sleep 1; done'
-                    sh "mkdir -p ${WORKSPACE}/aws-cli"
-                    sh "wget -O ${WORKSPACE}/aws-cli/awscliv2.zip https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip"
-                    sh "unzip ${WORKSPACE}/aws-cli/awscliv2.zip -d ${WORKSPACE}/aws-cli"
-                    sh "${WORKSPACE}/aws-cli/aws/install -i ${WORKSPACE}/aws-cli"
 
+                    sh 'apk update && apk add aws-cli'
 
                     sh 'apk add kustomize'
                     sh 'wget -O kubectl https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl'
