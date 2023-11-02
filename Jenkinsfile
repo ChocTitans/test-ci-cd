@@ -9,7 +9,6 @@ podTemplate(containers: [
 
         environment {
             KUBE_NAMESPACE = 'devops-tools'
-            AWS_CLI_INSTALL_DIR = "${WORKSPACE}/aws-cli" // Use WORKSPACE instead of env.WORKSPACE
 
         }
         stage ('Installing Requirements')
@@ -18,14 +17,13 @@ podTemplate(containers: [
             {
                 script
                 {
-                    def awsCliInstallDir = "${AWS_CLI_INSTALL_DIR}"
 
                     //sh 'dockerd-entrypoint.sh &'
                     //sh 'until docker info; do sleep 1; done'
-                    sh "mkdir -p ${AWS_CLI_INSTALL_DIR}"
-                    sh "wget -O ${AWS_CLI_INSTALL_DIR}/awscliv2.zip https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip"
-                    sh "unzip ${AWS_CLI_INSTALL_DIR}/awscliv2.zip -d ${AWS_CLI_INSTALL_DIR}"
-                    sh "${AWS_CLI_INSTALL_DIR}/aws/install -i ${AWS_CLI_INSTALL_DIR}"
+                    sh "mkdir -p ${WORKSPACE}/aws-cli"
+                    sh "wget -O ${WORKSPACE}/aws-cli/awscliv2.zip https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip"
+                    sh "unzip ${WORKSPACE}/aws-cli/awscliv2.zip -d ${WORKSPACE}/aws-cli"
+                    sh "${WORKSPACE}/aws-cli/aws/install -i ${WORKSPACE}/aws-cli"
 
 
                     sh 'apk add kustomize'
