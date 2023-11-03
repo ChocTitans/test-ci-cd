@@ -17,6 +17,8 @@ podTemplate(containers: [
                     sh 'dockerd-entrypoint.sh &'
                     sh 'until docker info; do sleep 1; done'
                     sh 'apk add kustomize'
+                    sh 'apk add --no-cache kubectl'
+
                 }
             }
         }
@@ -74,7 +76,13 @@ podTemplate(containers: [
         }*/
         stage('Deploy to K8s')
         {
-            kubernetesDeploy(kubeconfigId: 'Kubeconfing', configs: 'k8s/worker/deployment.yaml')            
+            container('docker')
+            {
+                dir('k8s')
+                {
+                    sh 'kustomize build . | kubectl apply -f -'
+                }
+            }
         }
     }
 }
