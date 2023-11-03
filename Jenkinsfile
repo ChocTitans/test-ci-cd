@@ -17,8 +17,9 @@ podTemplate(containers: [
                     sh 'dockerd-entrypoint.sh &'
                     sh 'until docker info; do sleep 1; done'
                     sh 'apk add kustomize'
-                    sh 'apk add --no-cache kubectl'
-
+                    sh 'wget -O kubectl https://dl.k8s.io/release/$(wget -qO- https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl'
+                    sh 'chmod +x kubectl'
+                    sh 'mv kubectl /usr/local/bin/'
                 }
             }
         }
