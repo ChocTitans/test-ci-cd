@@ -74,11 +74,7 @@ podTemplate(containers: [
         }*/
         stage('Deploy to K8s')
         {
-
-                script{
-                        kubernetesDeploy(kubeconfigId: 'Kubeconfing', configs: 'k8s/worker/deployment.yaml')
-                }
-            
+            kubernetesDeploy(kubeconfigId: 'Kubeconfing', configs: 'k8s/worker/deployment.yaml')            
         }
     }
 }
