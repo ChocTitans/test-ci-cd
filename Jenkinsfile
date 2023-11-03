@@ -1,6 +1,6 @@
 podTemplate(containers: [
     containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-17-slim', command: 'cat', ttyEnabled: 'true'),
-    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl', command: '', ttyEnabled: true, privileged: true),
+    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:latest', command: '', ttyEnabled: 'true', privileged: 'true'),
     containerTemplate(name: 'docker', image: 'docker:dind', command: '', ttyEnabled: true, privileged: true, envVars: [envVar(key: 'DOCKER_TLS_CERTDIR', value: '')]),
   ]) {
 
@@ -77,7 +77,7 @@ podTemplate(containers: [
             container('kubectl')
             {
                 script{
-                                    kubernetesDeploy(kubeconfigId: 'Kubeconfing', configs: 'k8s/worker/deployment.yaml')
+                        //kubernetesDeploy(kubeconfigId: 'Kubeconfing', configs: 'k8s/worker/deployment.yaml')
 
                 }
             }
