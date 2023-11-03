@@ -76,12 +76,10 @@ podTemplate(containers: [
         {
             container('kubectl')
             {
-                kubernetesDeploy
-                (
-                    kubeconfigId: 'Kubeconfing', // ID of the Kubernetes cluster config 
-                    configs: 'k8s/worker/deployment.yaml', // Path to manifests 
-                    enableConfigSubstitution: true
-                )
+                script{
+                                    kubernetesDeploy(kubeconfigId: 'Kubeconfing', configs: 'k8s/worker/deployment.yaml')
+
+                }
             }
         }
     }
