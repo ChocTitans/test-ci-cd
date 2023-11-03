@@ -15,9 +15,9 @@ podTemplate(containers: [
                 {
                     sh 'dockerd-entrypoint.sh &'
                     sh 'until docker info; do sleep 1; done'
-                    sh 'apk add curl'
-                    sh 'apk add kustomize && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
-                    sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"'
+                    sh 'apk add kustomize'
+                    sh 'apk add snapd'
+                    sh 'snap install kubectl --classic'
                 }
             }
         }
