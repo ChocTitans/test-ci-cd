@@ -7,7 +7,7 @@ podTemplate(containers: [
     {
         script {scannerHome = tool 'sonarqube' }
 
-        stage ('Installing Requirements')
+        /*stage ('Installing Requirements')
         {
             container('docker')
             {
@@ -18,13 +18,13 @@ podTemplate(containers: [
                     sh 'apk add kustomize'
                 }
             }
-        }
+        }*/
         stage ('Clone')
         {
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
         }
 
-       stage('Docker build & push')
+       /*stage('Docker build & push')
         {
 
             container('docker')
@@ -38,7 +38,7 @@ podTemplate(containers: [
                     }
                 }
             }
-        }
+        }*/
 
         stage('SonarQube Test Vulnerabilty')
         {
