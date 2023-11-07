@@ -40,6 +40,7 @@ podTemplate(containers: [
 
         stage('SonarQube Test Vulnerabilty')
         {
+            script {scannerHome = tool 'sonarqube' }
             dir('vote') 
             {
                 withSonarQubeEnv('sonarqube')
