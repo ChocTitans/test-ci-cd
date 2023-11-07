@@ -9,7 +9,7 @@ podTemplate(containers: [
 
         stage ('Installing Requirements')
         {
-            /*container('docker')
+            container('docker')
             {
                 script
                 {
@@ -17,14 +17,14 @@ podTemplate(containers: [
                     sh 'until docker info; do sleep 1; done'
                     sh 'apk add kustomize'
                 }
-            }*/
+            }
         }
         stage ('Clone')
         {
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
         }
 
-       /* stage('Docker build & push')
+       stage('Docker build & push')
         {
 
             container('docker')
@@ -38,7 +38,7 @@ podTemplate(containers: [
                     }
                 }
             }
-        }*/
+        }
 
         stage('SonarQube Test Vulnerabilty')
         {
