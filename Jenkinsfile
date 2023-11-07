@@ -37,25 +37,6 @@ podTemplate(containers: [
                 }
             }
         }*/
-        stage('Verify SonarQube Connection') {
-            steps {
-                script {
-                    def sonarqubeURL = 'https://sonarqube.hamzaboubnane.tech'  // Replace with the actual URL of your SonarQube server
-                    def responseCode = null
-        
-                    // Make an HTTP request to the SonarQube URL and capture the response code
-                    withSonarQubeEnv('sonarqube') {
-                        responseCode = sh(script: "curl -s -o /dev/null -w '%{http_code}' $sonarqubeURL", returnStatus: true)
-                    }
-        
-                    if (responseCode == 200) {
-                        echo "Successfully reached SonarQube server (HTTP status code 200)."
-                    } else {
-                        error "Failed to reach SonarQube server. HTTP status code: $responseCode"
-                    }
-                }
-            }
-        }
 
         stage('SonarQube Test Vulnerabilty')
         {
