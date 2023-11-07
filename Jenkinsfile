@@ -68,6 +68,11 @@ podTemplate(containers: [
                 }
             }
         }
+        stage("SonarQube Quality gate") {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
         stage('Deploy to K8s')
         {
            /* kubeconfig(credentialsId: 'Github-Hamza', serverUrl: '')
