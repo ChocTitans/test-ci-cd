@@ -45,7 +45,7 @@ podTemplate(containers: [
             {
                 withSonarQubeEnv('sonarqube')
                 {
-                    sh "${scannerHome}/bin/sonar-scanner.sh"
+                    sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
             dir('result')
