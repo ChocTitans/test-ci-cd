@@ -5,6 +5,8 @@ podTemplate(containers: [
 
     node(POD_LABEL)
     {
+        script {scannerHome = tool 'sonarqube' }
+
         stage ('Installing Requirements')
         {
             /*container('docker')
@@ -40,34 +42,33 @@ podTemplate(containers: [
 
         stage('SonarQube Test Vulnerabilty')
         {
-            script {scannerHome = tool 'sonarqube' }
             container('maven')
             {
-            dir('vote') 
-            {
-                withSonarQubeEnv('sonarqube')
+                dir('vote') 
                 {
-                    sh "${scannerHome}/bin/sonar-scanner"
+                    withSonarQubeEnv('sonarqube')
+                    {
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround"
+                    }
                 }
-            }
-            }
-            dir('result')
-            {
-                withSonarQubeEnv(installationName: 'sonarqube')
-                {
-                    sh "sonar-scanner-cli" 
-                }
-            }
-            dir('worker')
-            {
-                withSonarQubeEnv(installationName: 'sonarqube')
-                {
-                    sh "sonar-scanner begin"
-                    sh "dotnet build worker.csproj"
-                    sh "sonar-scanner end"
-                }
-            }
             
+                dir('result')
+                {
+                    withSonarQubeEnv(installationName: 'sonarqube')
+                    {
+                        sh "sonar-scanner-cli" 
+                    }
+                }
+                dir('worker')
+                {
+                    withSonarQubeEnv(installationName: 'sonarqube')
+                    {
+                        sh "sonar-scanner begin"
+                        sh "dotnet build worker.csproj"
+                        sh "sonar-scanner end"
+                    }
+                }
+            }
         }
         stage('Deploy to K8s')
         {
