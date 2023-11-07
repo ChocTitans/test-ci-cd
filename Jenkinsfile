@@ -41,12 +41,15 @@ podTemplate(containers: [
         stage('SonarQube Test Vulnerabilty')
         {
             script {scannerHome = tool 'sonarqube' }
+            container('maven')
+            {
             dir('vote') 
             {
                 withSonarQubeEnv('sonarqube')
                 {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
+            }
             }
             dir('result')
             {
