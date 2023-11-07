@@ -7,7 +7,7 @@ podTemplate(containers: [
     {
         stage ('Installing Requirements')
         {
-            container('docker')
+            /*container('docker')
             {
                 script
                 {
@@ -15,7 +15,7 @@ podTemplate(containers: [
                     sh 'until docker info; do sleep 1; done'
                     sh 'apk add kustomize'
                 }
-            }
+            }*/
         }
         stage ('Clone')
         {
@@ -42,7 +42,7 @@ podTemplate(containers: [
         {
             dir('vote') 
             {
-                withSonarQubeEnv(installationName: 'sonarqube')
+                withSonarQubeEnv('sonarqube')
                 {
                     sh "sonar-scanner"
                 }
