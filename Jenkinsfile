@@ -54,18 +54,16 @@ podTemplate(containers: [
             
                 dir('result')
                 {
-                    withSonarQubeEnv(installationName: 'sonarqube')
+                    withSonarQubeEnv('sonarqube')
                     {
-                        sh "sonar-scanner-cli" 
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround"
                     }
                 }
                 dir('worker')
                 {
-                    withSonarQubeEnv(installationName: 'sonarqube')
+                    withSonarQubeEnv('sonarqube')
                     {
-                        sh "sonar-scanner begin"
-                        sh "dotnet build worker.csproj"
-                        sh "sonar-scanner end"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround"
                     }
                 }
             }
