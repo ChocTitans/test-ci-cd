@@ -44,7 +44,7 @@ podTemplate(containers: [
             {
                 withSonarQubeEnv(credentialsId: 'SonarQube', installationName: 'sonarqube')
                 {
-                    sh "sonar-scanner"
+                    bat "${scannerHome}/bin/sonar-scanner.bat"
                 }
             }
             dir('result')
