@@ -42,7 +42,7 @@ podTemplate(containers: [
         {
             dir('vote') 
             {
-                withSonarQubeEnv(credentialsId: 'SonarQube', installationName: 'sonarqube')
+                withSonarQubeEnv('sonarqube')
                 {
                     bat "${scannerHome}/bin/sonar-scanner.bat"
                 }
