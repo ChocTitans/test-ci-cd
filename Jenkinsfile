@@ -51,7 +51,6 @@ podTemplate(containers: [
                         sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Vote"
                     }
                 }
-            
                 dir('result')
                 {
                     withSonarQubeEnv('sonarqube')
