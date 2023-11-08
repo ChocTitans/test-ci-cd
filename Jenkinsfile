@@ -48,7 +48,7 @@ podTemplate(containers: [
                 {
                     withSonarQubeEnv('sonarqube')
                     {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround -Dsonar.moduleKey=VoteService"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround"
                     }
                 }
             
@@ -56,14 +56,14 @@ podTemplate(containers: [
                 {
                     withSonarQubeEnv('sonarqube')
                     {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround -Dsonar.moduleKey=ResultService"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround"
                     }
                 }
                 dir('worker')
                 {
                     withSonarQubeEnv('sonarqube')
                     {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround -Dsonar.moduleKey=WorkerService"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=TestGround"
                     }
                 }
             }
