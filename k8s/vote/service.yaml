@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  vote
+spec:
+  selector:
+    app:  vote
+  type:  NodePort        #  LoadBalancer | ClusterIP | NodePort
+  ports:
+  - name:  vote
+    port:  5000
+    targetPort:  80
+    nodePort:  30080

@@ -73,10 +73,10 @@ podTemplate(containers: [
         }
         stage('Deploy to K8s')
         {
-           /* kubeconfig(credentialsId: 'Github-Hamza', serverUrl: '')
+            dir('k8s')
             {
-                kubectl cluster-info
-            }*/
+                sh 'kustomize build . | kubectl apply -f -'
+            }
         }
     }
 }

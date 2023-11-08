@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  result
+spec:
+  selector:
+    app:  result
+  type:  NodePort        #  LoadBalancer | ClusterIP | NodePort
+  ports:
+  - name:  result
+    port:  5001
+    targetPort:  80
+    nodePort:  30081
