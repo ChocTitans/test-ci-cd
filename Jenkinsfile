@@ -63,7 +63,7 @@ podTemplate(containers: [
                 {
                     withSonarQubeEnv('sonarqube')
                     {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Worker"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=Vote"
                     }z
                 }
             }
