@@ -75,10 +75,7 @@ podTemplate(containers: [
         {
             kubeconfig(credentialsId: 'KubeConfing', serverUrl: '')
             {
-                dir('k8s')
-                {
-                    sh 'kustomize build . | kubectl apply -f -'
-                }
+                    sh 'kubectl get nodes'
             }
         }
     }
