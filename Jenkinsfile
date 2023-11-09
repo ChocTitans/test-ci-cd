@@ -75,7 +75,7 @@ podTemplate(containers: [
         {
             withCredentials([file(credentialsId: 'Kubeconfing', variable: 'kubecfg')])
             {
-                sh 'kubectl --kubeconfig=$kubecfg get nodes'
+                sh 'cat ~/.kube/config'
             }
         }
     }
