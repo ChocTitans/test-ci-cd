@@ -73,9 +73,9 @@ podTemplate(containers: [
         }
         stage('Deploy to K8s')
         {
-            kubeconfig(credentialsId: 'Kubeconfing', serverUrl: '')
+            withCredentials([file(credentialsId: 'Kubeconfing', variable: 'kubecfg')])
             {
-                    sh 'kubectl config view'
+                sh 'kubectl --kubeconfig=$kubecfg get nodes'
             }
         }
     }
