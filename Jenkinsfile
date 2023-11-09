@@ -75,7 +75,7 @@ podTemplate(containers: [
         {
             container('docker')
             {
-                kubeconfig(credentialsId: 'Kubeconfing', serverUrl: '') {
+                kubeconfig(credentialsId: 'Kubeconfing', serverUrl: '')
                 {
                     dir('k8s')
                     {
