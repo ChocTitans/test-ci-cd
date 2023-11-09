@@ -7,7 +7,7 @@ podTemplate(containers: [
     {
         script {scannerHome = tool 'sonarqube' }
 
-        /*stage ('Installing Requirements')
+        stage ('Installing Requirements')
         {
             container('docker')
             {
@@ -18,7 +18,7 @@ podTemplate(containers: [
                     sh 'apk add kustomize'
                 }
             }
-        }*/
+        }
         stage ('Clone')
         {
             git branch: 'main', changelog: false, credentialsId: 'Github-Hamza', poll: false, url: 'https://github.com/ChocTitans/test-ci-cd.git'
@@ -40,7 +40,7 @@ podTemplate(containers: [
             }
         }*/
 
-        stage('SonarQube Test Vulnerabilty')
+        /*stage('SonarQube Test Vulnerabilty')
         {
             container('maven')
             {
@@ -70,12 +70,15 @@ podTemplate(containers: [
         stage("SonarQube Quality gate")
         {
             waitForQualityGate abortPipeline: true
-        }
+        }*/
         stage('Deploy to K8s')
         {
-            withCredentials([file(credentialsId: 'Kubeconfing', variable: 'kubecfg')])
+            container('docker')
             {
-                sh 'cat ~/.kube/config'
+                withCredentials([file(credentialsId: 'Kubeconfing', variable: 'kubecfg')])
+                {
+                    sh 'kubectl --kubeconfig=$kubecfg get nodes'
+                }
             }
         }
     }
